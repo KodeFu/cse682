@@ -382,15 +382,10 @@ void CTestFrameworkDlg::TestEngine(std::queue<TestInfo> &testQueue)
 			continue;
 		}
 		
-
 		// Declare string variables for holding DLL and Function Name
 		std::string testDllName = testInfo.getFilePath();
 		std::string testDllFuncName = testInfo.getTestName();
-
-		// Need to get the filename from the path, so we can log it 
-		char testDllShortName[MAX_BUFFER] = { 0 };
-		strncpy_s(testDllShortName, MAX_BUFFER, testDllName.c_str(), testDllName.size());
-		PathStripPathA(testDllShortName);
+		std::string testDllFileName = testInfo.getFileName();
 
 		// Get a handle to the test dll
 		HINSTANCE hTestDll = LoadLibraryA(testDllName.c_str());
@@ -400,7 +395,7 @@ void CTestFrameworkDlg::TestEngine(std::queue<TestInfo> &testQueue)
 			testFunc pTestFunc = (testFunc)GetProcAddress(hTestDll, testDllFuncName.c_str());
 			if (NULL != pTestFunc)
 			{
-				snprintf(buf, MAX_BUFFER, "%d: %s %s started\n", GetCurrentThreadId(), testDllShortName, testDllFuncName.c_str());
+				snprintf(buf, MAX_BUFFER, "%d: %s %s started\n", GetCurrentThreadId(), testDllFileName.c_str(), testDllFuncName.c_str());
 				ConsoleOut(buf);
 
 				try
@@ -409,31 +404,31 @@ void CTestFrameworkDlg::TestEngine(std::queue<TestInfo> &testQueue)
 					bool ret = pTestFunc();
 
 					// Log message
-					(ret) ? snprintf(buf, MAX_BUFFER, "%d: INFO %s %s test function returned %s", GetCurrentThreadId(), testDllShortName, testDllFuncName.c_str(), "true (pass).") :
-						snprintf(buf, MAX_BUFFER, "%d: INFO %s %s test function returned %s", GetCurrentThreadId(), testDllShortName, testDllFuncName.c_str(), "false (failed).");
+					(ret) ? snprintf(buf, MAX_BUFFER, "%d: INFO %s %s test function returned %s", GetCurrentThreadId(), testDllFileName.c_str(), testDllFuncName.c_str(), "true (pass).") :
+						snprintf(buf, MAX_BUFFER, "%d: INFO %s %s test function returned %s", GetCurrentThreadId(), testDllFileName.c_str(), testDllFuncName.c_str(), "false (failed).");
 					PostLogMessage(new CString(buf));
 				}
 				catch (int code) 
 				{
 					// Log message
-					snprintf(buf, MAX_BUFFER, "%d: ERROR %s %s %s 0x%X %s", GetCurrentThreadId(), testDllShortName, testDllFuncName.c_str(), "threw exception", code, ", exception handled.");
+					snprintf(buf, MAX_BUFFER, "%d: ERROR %s %s %s 0x%X %s", GetCurrentThreadId(), testDllFileName.c_str(), testDllFuncName.c_str(), "threw exception", code, ", exception handled.");
 					PostLogMessage(new CString(buf));
 				}
 				catch (...)
 				{
 					// Log message
-					snprintf(buf, MAX_BUFFER, "%d: ERROR %s %s %s", GetCurrentThreadId(), testDllShortName, testDllFuncName.c_str(), "test function threw a generic exception, exception handled.");
+					snprintf(buf, MAX_BUFFER, "%d: ERROR %s %s %s", GetCurrentThreadId(), testDllFileName.c_str(), testDllFuncName.c_str(), "test function threw a generic exception, exception handled.");
 					PostLogMessage(new CString(buf));
 				}
 
 				// Log message
-				snprintf(buf, MAX_BUFFER, "%d: %s %s ended\n", GetCurrentThreadId(), testDllShortName, testDllFuncName.c_str());
+				snprintf(buf, MAX_BUFFER, "%d: %s %s ended\n", GetCurrentThreadId(), testDllFileName.c_str(), testDllFuncName.c_str());
 				ConsoleOut(buf);
 			}
 			else
 			{
 				// Log message
-				snprintf(buf, MAX_BUFFER, "%d: ERROR %s %s %s, %s.", GetCurrentThreadId(), testDllShortName, testDllFuncName.c_str(), "couldn't find test function", testDllFuncName);
+				snprintf(buf, MAX_BUFFER, "%d: ERROR %s %s %s, %s.", GetCurrentThreadId(), testDllFileName.c_str(), testDllFuncName.c_str(), "couldn't find test function", testDllFuncName);
 				PostLogMessage(new CString(buf));
 			}
 
@@ -444,7 +439,7 @@ void CTestFrameworkDlg::TestEngine(std::queue<TestInfo> &testQueue)
 		else
 		{
 			// Build string to log
-			snprintf(buf, MAX_BUFFER, "%d: ERROR %s %s %s, %s", GetCurrentThreadId(), testDllShortName, testDllFuncName.c_str(), "coudn't find dll", testDllName);
+			snprintf(buf, MAX_BUFFER, "%d: ERROR %s %s %s, %s", GetCurrentThreadId(), testDllFileName.c_str(), testDllFuncName.c_str(), "coudn't find dll", testDllName);
 			PostLogMessage(new CString(buf));
 		}
 	}
