@@ -51,4 +51,10 @@ public:
 	CListBox m_logList;
 	afx_msg void OnBnClickedButtonRuntests();
 	afx_msg LRESULT OnLogMessage(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnFileOpentests();
+	afx_msg void OnFileQuit();
+	afx_msg void OnHelpAbout();
+	afx_msg void OnEditResettestlist();
+	afx_msg void OnEditResetLog();
+	afx_msg void OnEditRunTests();
 };

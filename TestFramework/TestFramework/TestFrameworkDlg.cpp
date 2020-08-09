@@ -50,6 +50,8 @@ public:
 // Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -121,6 +123,12 @@ BEGIN_MESSAGE_MAP(CTestFrameworkDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_RUNTESTS, &CTestFrameworkDlg::OnBnClickedButtonRuntests)
 	ON_MESSAGE(WM_USER_LOG_MESSAGE, OnLogMessage) // custom message to handle log PostMessages
 	ON_WM_CLOSE()
+	ON_COMMAND(ID_FILE_OPENTESTS, &CTestFrameworkDlg::OnFileOpentests)
+	ON_COMMAND(ID_FILE_QUIT, &CTestFrameworkDlg::OnFileQuit)
+	ON_COMMAND(ID_HELP_ABOUT, &CTestFrameworkDlg::OnHelpAbout)
+	ON_COMMAND(ID_EDIT_RESETTESTLIST, &CTestFrameworkDlg::OnEditResettestlist)
+	ON_COMMAND(ID_EDIT_RESETLOG, &CTestFrameworkDlg::OnEditResetLog)
+	ON_COMMAND(ID_EDIT_RUNTESTS, &CTestFrameworkDlg::OnEditRunTests)
 END_MESSAGE_MAP()
 
 
@@ -459,4 +467,40 @@ afx_msg LRESULT CTestFrameworkDlg::OnLogMessage(WPARAM wParam, LPARAM lParam)
 	}
 
 	return 0;
+}
+
+void CTestFrameworkDlg::OnFileOpentests()
+{
+	OnBnClickedButtonBrowse();
+}
+
+
+void CTestFrameworkDlg::OnFileQuit()
+{
+	EndDialog(IDOK);
+}
+
+
+void CTestFrameworkDlg::OnHelpAbout()
+{
+	CAboutDlg dlgAbout;
+	dlgAbout.DoModal();
+}
+
+
+void CTestFrameworkDlg::OnEditResettestlist()
+{
+	OnBnClickedButtonReset();
+}
+
+
+void CTestFrameworkDlg::OnEditResetLog()
+{
+	OnBnClickedButtonResetlog();
+}
+
+
+void CTestFrameworkDlg::OnEditRunTests()
+{
+	OnBnClickedButtonRuntests();
 }
