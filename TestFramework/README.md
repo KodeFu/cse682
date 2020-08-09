@@ -24,8 +24,9 @@ The Test Framework runs as a GUI application which allows the user to browse for
 * Please note that JAR files are actually DLL files renamed to JAR to demonstrate similar functionality for testing JAR files.
 
 Test Framework
+
 ![TestFramework](https://github.com/KodeFu/cse682/blob/master/TestFramework/TestFramework/framework.png)
 
-Test Engine console:
+Test Engine Console
 
 ![TestEngine](https://github.com/KodeFu/cse682/blob/master/TestFramework/TestFramework/testengine.png)
