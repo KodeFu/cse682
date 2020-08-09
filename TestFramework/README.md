@@ -30,3 +30,8 @@ Test Framework
 Test Engine Console
 
 ![TestEngine](https://github.com/KodeFu/cse682/blob/master/TestFramework/TestFramework/testengine.png)
+
+# Software Credits (Reuse)
+Test Harness Project
+- Test DLL project and Test Engine loop written by Mudit Vats.
+
