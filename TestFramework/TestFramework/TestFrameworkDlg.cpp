@@ -64,6 +64,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	
 END_MESSAGE_MAP()
 
 
@@ -121,6 +122,7 @@ BEGIN_MESSAGE_MAP(CTestFrameworkDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_RESET, &CTestFrameworkDlg::OnBnClickedButtonReset)
 	ON_BN_CLICKED(IDC_BUTTON_RESETLOG, &CTestFrameworkDlg::OnBnClickedButtonResetlog)
 	ON_BN_CLICKED(IDC_BUTTON_RUNTESTS, &CTestFrameworkDlg::OnBnClickedButtonRuntests)
+	ON_BN_CLICKED(IDC_BUTTON_EXPORT, &CTestFrameworkDlg::OnBnClickedButtonExport)
 	ON_MESSAGE(WM_USER_LOG_MESSAGE, OnLogMessage) // custom message to handle log PostMessages
 	ON_WM_CLOSE()
 	ON_COMMAND(ID_FILE_OPENTESTS, &CTestFrameworkDlg::OnFileOpentests)
@@ -129,6 +131,7 @@ BEGIN_MESSAGE_MAP(CTestFrameworkDlg, CDialogEx)
 	ON_COMMAND(ID_EDIT_RESETTESTLIST, &CTestFrameworkDlg::OnEditResettestlist)
 	ON_COMMAND(ID_EDIT_RESETLOG, &CTestFrameworkDlg::OnEditResetLog)
 	ON_COMMAND(ID_EDIT_RUNTESTS, &CTestFrameworkDlg::OnEditRunTests)
+	ON_COMMAND(ID_FILE_EXPORTLOG, &CTestFrameworkDlg::OnFileExportLog)
 END_MESSAGE_MAP()
 
 
@@ -464,6 +467,26 @@ afx_msg LRESULT CTestFrameworkDlg::OnLogMessage(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+void CTestFrameworkDlg::OnBnClickedButtonExport()
+{
+	const TCHAR szFilter[] = _T("Log File (*.log)|*.log||");
+	CFileDialog dlg(FALSE, NULL, NULL, OFN_HIDEREADONLY, szFilter, this);
+
+	if (dlg.DoModal() == IDOK)
+	{
+		CString filePath = dlg.GetPathName();
+		CString fileName = dlg.GetFileName();
+
+		if (!fileName.IsEmpty())
+		{
+			MessageBox(filePath, fileName, MB_OK);
+
+			// Save something
+		}
+
+	}
+}
+
 void CTestFrameworkDlg::OnFileOpentests()
 {
 	OnBnClickedButtonBrowse();
@@ -498,4 +521,10 @@ void CTestFrameworkDlg::OnEditResetLog()
 void CTestFrameworkDlg::OnEditRunTests()
 {
 	OnBnClickedButtonRuntests();
+}
+
+
+void CTestFrameworkDlg::OnFileExportLog()
+{
+	OnBnClickedButtonExport();
 }

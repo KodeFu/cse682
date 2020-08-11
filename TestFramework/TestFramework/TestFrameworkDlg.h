@@ -50,6 +50,7 @@ public:
 	afx_msg void OnBnClickedButtonResetlog();
 	CListBox m_logList;
 	afx_msg void OnBnClickedButtonRuntests();
+	afx_msg void OnBnClickedButtonExport();
 	afx_msg LRESULT OnLogMessage(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnFileOpentests();
 	afx_msg void OnFileQuit();
@@ -57,4 +58,5 @@ public:
 	afx_msg void OnEditResettestlist();
 	afx_msg void OnEditResetLog();
 	afx_msg void OnEditRunTests();
+	afx_msg void OnFileExportLog();
 };
