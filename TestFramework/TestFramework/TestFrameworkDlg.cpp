@@ -166,6 +166,9 @@ BOOL CTestFrameworkDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
+	m_testList.AddString("Please use Browse for Tests to select tests to run.");
+	m_firstStart = true;
+
 	for (int i = 0; i < THREAD_POOL_MAX; i++)
 	{
 		// start Test Engine
@@ -279,6 +282,13 @@ void CTestFrameworkDlg::GetFuncNamesFromBinary(CString filePath, CString fileNam
 			testFunc pTestFunc = (testFunc)GetProcAddress(hTestDll, lpctrFuncName);
 			if (NULL != pTestFunc)
 			{
+				// if this is the first run, reset the list contents
+				if (m_firstStart)
+				{
+					m_testList.ResetContent();
+					m_firstStart = false;
+				}
+
 				// add the function name to the available tests
 				CString tmp;
 				tmp.Format(_T("%s --> %s()"), fileName, funcName);
