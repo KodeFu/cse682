@@ -166,7 +166,7 @@ BOOL CTestFrameworkDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	m_testList.AddString("Please use Browse for Tests to select tests to run.");
+	m_testList.AddString("Please click the Browse for Tests button to select tests to run.");
 	m_firstStart = true;
 
 	for (int i = 0; i < THREAD_POOL_MAX; i++)
