@@ -41,6 +41,7 @@ private:
 	void GetFuncNamesFromBinary(CString filePath, CString fileName);
 	std::queue<TestInfo> m_logQueue;
 	static std::queue<TestInfo> m_testQueue;
+	bool m_firstStart;
 	static void TestEngine(std::queue<TestInfo>& testQueue);
 	static void PostLogMessage(CString* str);
 	static void ConsoleOut(char* str);
