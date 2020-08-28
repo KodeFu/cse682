@@ -489,11 +489,25 @@ void CTestFrameworkDlg::OnBnClickedButtonExport()
 
 		if (!fileName.IsEmpty())
 		{
+			// Slightly hacky workaround for .log extension not being automatically added to files
+			// If the specified file isn't already a .log file, this makes it one
+			CString logExt = ".log";
+			if (fileName.Find(logExt) == -1) {
+				filePath += logExt;
+				fileName += logExt;
+			}
+
+			CStdioFile logFile;
+			if (logFile.Open(filePath, CFile::modeCreate | CFile::modeWrite))
+			{
+				CString line;
+				for (int i = 0; i < (int)m_logList.GetCount(); i++) {
+					m_logList.GetText(i, line);
+					logFile.WriteString(line);
+				}
+			}
 			MessageBox(filePath, fileName, MB_OK);
-
-			// Save something
 		}
-
 	}
 }
 
