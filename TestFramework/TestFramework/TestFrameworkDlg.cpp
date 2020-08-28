@@ -506,7 +506,7 @@ void CTestFrameworkDlg::OnBnClickedButtonExport()
 					logFile.WriteString(line);
 				}
 			}
-			MessageBox(filePath, fileName, MB_OK);
+			//MessageBox(filePath, fileName, MB_OK);
 		}
 	}
 }
