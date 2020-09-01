@@ -480,7 +480,7 @@ afx_msg LRESULT CTestFrameworkDlg::OnLogMessage(WPARAM wParam, LPARAM lParam)
 void CTestFrameworkDlg::OnBnClickedButtonExport()
 {
 	const TCHAR szFilter[] = _T("Log File (*.log)|*.log||");
-	CFileDialog dlg(FALSE, NULL, NULL, OFN_HIDEREADONLY, szFilter, this);
+	CFileDialog dlg(FALSE, _T(".log"), NULL, OFN_HIDEREADONLY, szFilter, this);
 
 	if (dlg.DoModal() == IDOK)
 	{
@@ -489,14 +489,6 @@ void CTestFrameworkDlg::OnBnClickedButtonExport()
 
 		if (!fileName.IsEmpty())
 		{
-			// Slightly hacky workaround for .log extension not being automatically added to files
-			// If the specified file isn't already a .log file, this makes it one
-			CString logExt = ".log";
-			if (fileName.Find(logExt) == -1) {
-				filePath += logExt;
-				fileName += logExt;
-			}
-
 			CStdioFile logFile;
 			if (logFile.Open(filePath, CFile::modeCreate | CFile::modeWrite))
 			{
