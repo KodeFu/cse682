@@ -496,9 +496,9 @@ void CTestFrameworkDlg::OnBnClickedButtonExport()
 				for (int i = 0; i < (int)m_logList.GetCount(); i++) {
 					m_logList.GetText(i, line);
 					logFile.WriteString(line);
+					logFile.WriteString("\n");
 				}
 			}
-			//MessageBox(filePath, fileName, MB_OK);
 		}
 	}
 }
