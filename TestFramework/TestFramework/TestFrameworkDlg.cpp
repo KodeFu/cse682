@@ -28,7 +28,7 @@ std::queue<TestInfo>CTestFrameworkDlg::m_testQueue;
 #define MAX_BUFFER 1024
 
 // Max test engine threads
-#define THREAD_POOL_MAX 5
+//#define THREAD_POOL_MAX 5
 
 CMutex m_mutex;
 
@@ -123,6 +123,7 @@ BEGIN_MESSAGE_MAP(CTestFrameworkDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_RESETLOG, &CTestFrameworkDlg::OnBnClickedButtonResetlog)
 	ON_BN_CLICKED(IDC_BUTTON_RUNTESTS, &CTestFrameworkDlg::OnBnClickedButtonRuntests)
 	ON_BN_CLICKED(IDC_BUTTON_EXPORT, &CTestFrameworkDlg::OnBnClickedButtonExport)
+	ON_CONTROL_RANGE(BN_CLICKED, IDC_RBUTTON5, IDC_RBUTTON15, &CTestFrameworkDlg::OnRadioBnClickedButtonUpdate)
 	ON_MESSAGE(WM_USER_LOG_MESSAGE, OnLogMessage) // custom message to handle log PostMessages
 	ON_WM_CLOSE()
 	ON_COMMAND(ID_FILE_OPENTESTS, &CTestFrameworkDlg::OnFileOpentests)
@@ -169,12 +170,15 @@ BOOL CTestFrameworkDlg::OnInitDialog()
 	m_testList.AddString("Please click the Browse for Tests button to select tests to run.");
 	m_firstStart = true;
 
-	for (int i = 0; i < THREAD_POOL_MAX; i++)
+	CButton* rButton5 = (CButton*)this->GetDlgItem(IDC_RBUTTON5);
+	rButton5->SetFocus();
+	rButton5->SetCheck(true);
+
+	for (int i = 0; i < CTestFrameworkDlg::GetThreadCount(); i++)
 	{
 		// start Test Engine
 		std::thread{ CTestFrameworkDlg::TestEngine, std::ref(CTestFrameworkDlg::m_testQueue) }.detach();
 	}
-
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -501,6 +505,58 @@ void CTestFrameworkDlg::OnBnClickedButtonExport()
 			}
 		}
 	}
+}
+
+
+int CTestFrameworkDlg::GetThreadCount() {
+	if (IsDlgButtonChecked(IDC_RBUTTON5)) {
+		return 5;
+	}
+	else if (IsDlgButtonChecked(IDC_RBUTTON10)) {
+		return 10;
+	}
+	else {
+		return 15;
+	}
+}
+
+void CTestFrameworkDlg::OnRadioBnClickedButtonUpdate(UINT nID)
+{
+	CButton* rButton5 = (CButton*)this->GetDlgItem(IDC_RBUTTON5);
+	CButton* rButton10 = (CButton*)this->GetDlgItem(IDC_RBUTTON10);
+	CButton* rButton15 = (CButton*)this->GetDlgItem(IDC_RBUTTON15);
+
+	if (nID == IDC_RBUTTON5) {
+		rButton5->SetFocus();
+		rButton5->SetCheck(true);
+		if (IsDlgButtonChecked(IDC_RBUTTON10)) {
+			rButton10->SetCheck(false);
+		}
+		if (IsDlgButtonChecked(IDC_RBUTTON15)) {
+			rButton15->SetCheck(false);
+		}
+	}
+	else if (nID == IDC_RBUTTON10) {
+		rButton10->SetFocus();
+		rButton10->SetCheck(true);
+		if (IsDlgButtonChecked(IDC_RBUTTON5)) {
+			rButton5->SetCheck(false);
+		}
+		if (IsDlgButtonChecked(IDC_RBUTTON15)) {
+			rButton15->SetCheck(false);
+		}
+	}
+	else {
+		rButton15->SetFocus();
+		rButton15->SetCheck(true);
+		if (IsDlgButtonChecked(IDC_RBUTTON5)) {
+			rButton5->SetCheck(false);
+		}
+		if (IsDlgButtonChecked(IDC_RBUTTON10)) {
+			rButton10->SetCheck(false);
+		}
+	}
+	return;
 }
 
 void CTestFrameworkDlg::OnFileOpentests()

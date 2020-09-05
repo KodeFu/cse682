@@ -23,6 +23,9 @@
 #define ID_EDIT_RESETLOG                32776
 #define ID_FILE_EXPORTLOG               32777
 #define ID_EDIT_RUNTESTS                32778
+#define IDC_RBUTTON5                    32780
+#define IDC_RBUTTON10                   32781
+#define IDC_RBUTTON15                   32782
 
 // Next default values for new objects
 // 

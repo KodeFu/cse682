@@ -60,4 +60,6 @@ public:
 	afx_msg void OnEditResetLog();
 	afx_msg void OnEditRunTests();
 	afx_msg void OnFileExportLog();
+	afx_msg void OnRadioBnClickedButtonUpdate(UINT nID);
+	afx_msg int GetThreadCount();
 };
