@@ -170,9 +170,9 @@ BOOL CTestFrameworkDlg::OnInitDialog()
 	m_testList.AddString("Please click the Browse for Tests button to select tests to run.");
 	m_firstStart = true;
 
-	CButton* rButton5 = (CButton*)this->GetDlgItem(IDC_RBUTTON5);
-	rButton5->SetFocus();
-	rButton5->SetCheck(true);
+	CButton* dfltThreadBtn = (CButton*)this->GetDlgItem(IDC_RBUTTON10);
+	dfltThreadBtn->SetFocus();
+	dfltThreadBtn->SetCheck(true);
 
 	for (int i = 0; i < CTestFrameworkDlg::GetThreadCount(); i++)
 	{
@@ -494,11 +494,14 @@ void CTestFrameworkDlg::OnBnClickedButtonExport()
 		if (!fileName.IsEmpty())
 		{
 			CStdioFile logFile;
-			if (logFile.Open(filePath, CFile::modeCreate | CFile::modeWrite))
+			if (logFile.Open(filePath, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite))
 			{
 				CString line;
+				logFile.SeekToEnd();
+				logFile.WriteString("--------------\n");
 				for (int i = 0; i < (int)m_logList.GetCount(); i++) {
 					m_logList.GetText(i, line);
+					logFile.SeekToEnd();
 					logFile.WriteString(line);
 					logFile.WriteString("\n");
 				}
