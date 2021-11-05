@@ -1,5 +1,15 @@
 # CSE682 Software Engineering
 
-Repository for CSE682 Project.
+Software Engineering project, Syracuse University.
 
-Syracuse University
+# Software Requriements Document
+- Intro
+- Requirements
+- Constraints
+- Architectural Design
+- System Models
+- Use Case Models
+- System Evolution
+
+# Test Framework
+- Test Execution and GUI. Written in C++.
